@@ -1,0 +1,114 @@
+# AI 饮食与健康生活管家 — Docker Compose（形态 A：nginx 入口 + 多服务）
+#
+# 校验状态（诚实说明）：本机无 Docker（docker 命令不存在），本文件只做过
+# Python YAML 语法解析与人工逐项核对，**没有实跑过 `docker compose up`**。
+# 首次在有 Docker 的机器上部署时，按 README.md 的步骤走，遇到问题
+# 优先检查 .env 是否填好、镜像是否构建成功，不要假设本文件已验证。
+#
+# 服务一览：
+#   web      nginx:1.27-alpine，唯一公网入口 :80；静态直出 + 反代 /api/、/mcp
+#   api      FastAPI（uvicorn :8000，内网，不暴露端口）
+#   worker   Celery worker --pool=solo
+#   beat     Celery beat（必须单实例，勿 scale）
+#   postgres pgvector/pgvector:pg16，volume pgdata
+#   redis    redis:7-alpine
+#
+# 迁移：不要让 api/worker/beat 启动时各自跑迁移（会竞争）。只用一次性命令：
+#   docker compose run --rm api alembic upgrade head
+# 或带 profile 的 migrate 服务：
+#   docker compose --profile migrate run --rm migrate
+# 种子（可选，演示账号）：
+#   docker compose run --rm api python /app/scripts/seed_demo.py
+
+x-api-common: &api-common
+  build:
+    context: .
+    dockerfile: backend/Dockerfile
+  env_file:
+    - .env
+  environment:
+    DATABASE_URL: postgresql://${POSTGRES_USER:-ai_life}:${POSTGRES_PASSWORD:?请在 .env 中设置 POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-ai_life}
+    CELERY_BROKER_URL: redis://redis:6379/0
+    CELERY_RESULT_BACKEND: redis://redis:6379/0
+    CELERY_EAGER: "false"
+    DATA_DIR: /app/data
+  depends_on:
+    postgres:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+  restart: unless-stopped
+
+services:
+  web:
+    image: nginx:1.27-alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./infra/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./frontend:/usr/share/nginx/html:ro
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+  api:
+    <<: *api-common
+    # 不写 ports：api 只在内网接受 web 的反代，不直接暴露。
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health/ready', timeout=5)"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  worker:
+    <<: *api-common
+    command: ["celery", "-A", "app.tasks.celery_app", "worker", "--pool=solo", "-l", "info"]
+    # worker 不需要对外的健康检查；只等 postgres/redis 健康。
+    # 注意：worker 不等迁移完成——首次部署请先跑一次性迁移
+    #（见文件头），否则 worker 启动时会因表不存在而报错重试。
+
+  beat:
+    <<: *api-common
+    command: ["celery", "-A", "app.tasks.celery_app", "beat", "-l", "info"]
+    # beat 必须单实例：不要 `docker compose up --scale beat=N`，
+    # 否则定时任务会重复下发。
+
+  # 一次性迁移服务（profile 工具服务，`up` 时默认不启动）。
+  migrate:
+    <<: *api-common
+    profiles: ["migrate"]
+    command: ["alembic", "upgrade", "head"]
+    restart: "no"
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-ai_life}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?请在 .env 中设置 POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-ai_life}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-ai_life} -d ${POSTGRES_DB:-ai_life}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  redisdata:

@@ -1,0 +1,16 @@
+[Unit]
+Description=Shiguang Kitchen weekly reports
+After=local-fs.target
+StartLimitIntervalSec=15min
+StartLimitBurst=4
+
+[Service]
+Type=oneshot
+User=ai-life
+Group=ai-life
+WorkingDirectory=/opt/ai-life-agent
+EnvironmentFile=/opt/ai-life-agent/.env
+ExecStart=/opt/ai-life-agent/backend/.venv/bin/python /opt/ai-life-agent/scripts/run_weekly_reports.py
+UMask=0077
+Restart=on-failure
+RestartSec=1min

@@ -1,0 +1,507 @@
+/* The discovery entry keeps its space in the existing breakfast card. */
+.taste-ticket {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-block-start: 8px;
+  min-height: 30px;
+  padding: 3px 9px 3px 6px;
+  border: 1px solid var(--line-2);
+  border-radius: 5px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font: 600 12px/1.3 var(--sans);
+  letter-spacing: .01em;
+  text-decoration: none;
+  vertical-align: top;
+  transition: transform 140ms ease, border-color 140ms ease;
+}
+.taste-ticket-mark {
+  display: grid;
+  place-items: center;
+  padding: 2px 6px 2px 1px;
+  border-inline-end: 1px dashed color-mix(in srgb,var(--on-accent) 36%,transparent);
+  color: inherit;
+}
+.taste-ticket .ic { width: 15px; height: 15px; }
+.taste-ticket > .ic { width: 12px; height: 12px; color: inherit; }
+.taste-ticket:hover { transform: translateY(-2px); border-color: var(--primary); }
+.taste-ticket:active { transform: translateY(1px); }
+
+.page[data-route="taste"] {
+  padding-block: 14px 22px;
+  animation: none;
+}
+.taste-page {
+  --taste-table: #422c22;
+  --taste-table-edge: #896552;
+  --taste-on-table: #fff4e7;
+  --taste-on-table-muted: #e7d2c1;
+  --taste-rim-color: #f6e4c4;
+  --taste-print: #35251c;
+}
+.taste-page [hidden] { display: none !important; }
+.taste-page ::selection { background: var(--honey); color: var(--taste-print); }
+.taste-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  color: var(--primary);
+  font-size: 13px;
+  text-decoration: none;
+}
+.taste-back:hover { text-decoration: underline; text-underline-offset: 3px; }
+.taste-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+  margin: 4px 0 14px;
+}
+.taste-header h2 {
+  font-size: clamp(31px, 4.2vw, 57px);
+  line-height: 1.08;
+  letter-spacing: -.03em;
+}
+.taste-header h2 span { color: var(--primary); }
+.taste-header p { margin: 6px 0 0; color: var(--ink-2); }
+.taste-modes {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: var(--paper-2);
+}
+.taste-modes button,
+.taste-filters button {
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 5px 12px;
+  font-size: 13px;
+  background: transparent;
+  color: var(--ink-2);
+  white-space: nowrap;
+  transition: background-color .18s, color .18s, border-color .18s;
+}
+.taste-modes button:hover,
+.taste-filters button:hover { color: var(--ink); border-color: var(--line-2); }
+.taste-modes button[aria-pressed="true"] {
+  background: var(--primary);
+  color: var(--on-primary);
+  font-weight: 650;
+}
+.taste-modes button[aria-pressed="true"]:focus-visible { outline-color: var(--on-primary); }
+.taste-toolbar,
+.taste-filters {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.taste-toolbar { justify-content: space-between; border-top: 1px solid var(--line); padding: 10px 0; }
+.taste-utility { display: flex; gap: 6px; align-items: center; margin-inline-start: auto; }
+.taste-sound { min-height: 36px; }
+.taste-sound[aria-pressed="true"] { background: var(--primary-soft); color: var(--primary); border-color: var(--primary); }
+.taste-filters button { background: var(--card); border-color: var(--line); }
+.taste-filters button[aria-pressed="true"] {
+  background: var(--primary-soft);
+  border-color: var(--primary);
+  color: var(--primary);
+  font-weight: 650;
+}
+.taste-toolbar button:disabled,
+.taste-modes button:disabled { cursor: default; opacity: .68; }
+.taste-board {
+  display: grid;
+  grid-template-columns: minmax(0, 1.22fr) minmax(0, .88fr);
+  gap: 16px;
+  align-items: start;
+}
+.taste-stage,
+.taste-result {
+  min-width: 0;
+  border-radius: 16px;
+  overflow: clip;
+}
+.taste-stage {
+  background: var(--taste-table);
+  color: var(--taste-on-table);
+  padding: 15px 18px 13px;
+}
+.taste-stage-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.taste-stage-heading h3 { font-size: 19px; }
+.taste-stage-heading span { color: var(--taste-on-table-muted); font-size: 12px; white-space: nowrap; }
+.taste-stage :focus-visible { outline-color: var(--honey); }
+.taste-play-area {
+  display: grid;
+  place-items: center;
+  margin: 0 auto;
+  gap: 8px;
+}
+.taste-wheel {
+  position: relative;
+  display: grid;
+  place-items: center;
+  inline-size: min(100%, 356px);
+  padding-top: 15px;
+  margin-top: 2px;
+}
+.taste-rim {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid #edcd91;
+  background: var(--taste-rim-color);
+  box-shadow: 0 9px 14px -6px #24170f, inset 0 0 0 4px #dab88a, inset 0 0 0 7px #fbeac3;
+  container-type: inline-size;
+}
+.taste-rotor {
+  position: absolute;
+  inset: 11px;
+  background: var(--segments);
+  border: 1px solid #a77745;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.taste-rotor::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px solid #84644965;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.taste-page[data-phase="playing"] .taste-rotor { will-change: transform; }
+.taste-dial-label {
+  position: absolute;
+  top: var(--place-y);
+  left: var(--place-x);
+  width: 26%;
+  padding: 3px 2px;
+  transform: translate(-50%, -50%) rotate(var(--counter-angle, 0deg));
+  color: var(--taste-print);
+  text-align: center;
+  text-wrap: balance;
+  font-size: clamp(11px, 4.06cqi, 14px);
+  font-weight: 700;
+  line-height: 1.18;
+  overflow-wrap: anywhere;
+}
+.taste-dial-label.is-winner {
+  background: #fff5dc;
+  border: 1px solid #a47439;
+  border-radius: 6px;
+}
+.taste-needle {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: calc(50% - 13px);
+  width: 26px;
+  height: 37px;
+  transform-origin: 50% 5px;
+  background: var(--primary);
+  border-radius: 5px 5px 50% 50%;
+  clip-path: polygon(0 0, 100% 0, 88% 52%, 50% 100%, 12% 52%);
+}
+.taste-needle::before {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 7px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fbe4b2;
+}
+.taste-hub {
+  z-index: 2;
+  width: 25.5%;
+  aspect-ratio: 1;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 3px;
+  border: 3px solid #f7e3bb;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--on-primary);
+  box-shadow: 0 3px 7px #61483375;
+  font-size: clamp(12px, 4.1cqi, 15px);
+  font-weight: 700;
+}
+.taste-hub .ic { width: 18px; height: 18px; }
+.taste-hub:hover:not(:disabled) { background: var(--primary-hover); }
+.taste-hub:focus-visible { outline-color: var(--on-primary); }
+.taste-hub:active:not(:disabled) { transform: scale(.95); }
+.taste-hub:disabled { cursor: default; }
+.taste-play-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 33px;
+}
+.taste-cream-btn,
+.taste-quiet-btn { min-height: 32px; padding: 4px 11px; font-size: 12px; }
+.taste-cream-btn { background: var(--honey); color: var(--taste-print); border-color: var(--honey); }
+.taste-cream-btn:hover { background: var(--taste-rim-color); border-color: var(--taste-rim-color); }
+.taste-quiet-btn { background: transparent; color: var(--taste-on-table); border-color: var(--taste-table-edge); }
+.taste-quiet-btn:hover { background: #573b2d; border-color: var(--taste-on-table-muted); }
+.taste-jump-result { display: none; }
+.taste-stages {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+  padding-top: 9px;
+  border-top: 1px solid var(--taste-table-edge);
+  color: var(--taste-on-table-muted);
+  font-size: 12px;
+}
+.taste-stages span { display: flex; align-items: center; gap: 5px; }
+.taste-stages span::before { content: ""; width: 6px; height: 6px; border: 1px solid currentColor; border-radius: 50%; }
+.taste-page[data-phase="ready"] [data-taste-step="ready"],
+.taste-page[data-phase="playing"] [data-taste-step="playing"],
+.taste-page[data-phase="result"] [data-taste-step="result"] { color: var(--honey); font-weight: 700; }
+.taste-page[data-phase="ready"] [data-taste-step="ready"]::before,
+.taste-page[data-phase="playing"] [data-taste-step="playing"]::before,
+.taste-page[data-phase="result"] [data-taste-step="result"]::before { background: currentColor; }
+
+.taste-deck {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  width: min(100%, 460px);
+  align-items: center;
+  min-height: 295px;
+  padding-block: 24px;
+  gap: 12px;
+}
+.taste-flip-card {
+  appearance: none;
+  position: relative;
+  inline-size: 100%;
+  aspect-ratio: 2 / 3.1;
+  border: none;
+  padding: 0;
+  border-radius: 11px;
+  background: transparent;
+  perspective: 680px;
+  font-size: clamp(11px, 1.14vw, 14px);
+}
+.taste-card-turn {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transition: translate .18s ease;
+}
+.taste-flip-card:hover:not(:disabled) .taste-card-turn { translate: 0 -5px; }
+.taste-flip-card:disabled { cursor: default; }
+.taste-flip-card.is-shown .taste-card-turn { transform: rotateY(180deg); }
+.taste-card-back,
+.taste-card-front {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 8px;
+  padding: 7px;
+  border: 1px solid #f7dc9e;
+  border-radius: 11px;
+  backface-visibility: hidden;
+  overflow: hidden;
+}
+.taste-card-back { background: var(--honey); color: var(--taste-print); box-shadow: inset 0 0 0 5px #b78b54; }
+.taste-flip-card:nth-child(2) .taste-card-back { background: #f4e1d6; box-shadow: inset 0 0 0 5px #b68b79; }
+.taste-flip-card:nth-child(3) .taste-card-back { background: #edc4b4; box-shadow: inset 0 0 0 5px #ad7766; }
+.taste-card-corner { position: absolute; top: 10px; left: 11px; font-style: normal; font-variant-numeric: tabular-nums; }
+.taste-card-symbol {
+  display: grid;
+  place-items: center;
+  width: clamp(34px, 6vw, 64px);
+  aspect-ratio: 1;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+}
+.taste-card-symbol .ic { width: 65%; height: 65%; }
+.taste-card-back-label { font-weight: 650; }
+.taste-card-front {
+  transform: rotateY(180deg);
+  background: #fff3d8;
+  color: var(--taste-print);
+  gap: 8px;
+  text-align: center;
+}
+.taste-card-front strong { overflow-wrap: anywhere; }
+.taste-card-front .taste-card-photo { width: 100%; border-radius: 5px; }
+
+.taste-result {
+  border: 1px solid var(--line);
+  background: var(--card);
+  scroll-margin-top: 99px;
+}
+.taste-cover { position: relative; overflow: hidden; background: #b0926b; }
+.taste-photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  background: #b0926b url('assets/taste/food-atlas.webp') var(--taste-x) var(--taste-y) / 300% 300% no-repeat;
+}
+.taste-result-label {
+  position: absolute;
+  bottom: 11px;
+  left: 14px;
+  padding: 4px 10px;
+  border-radius: 5px;
+  background: var(--honey);
+  color: var(--honey-ink);
+  font-size: 12px;
+  line-height: 1.4;
+  font-weight: 700;
+}
+.taste-result-copy { padding: 14px 17px 15px; }
+.taste-origin { color: var(--primary); font-size: 12px; font-weight: 650; margin: 0; }
+.taste-origin span { padding-inline: 3px; }
+.taste-result-copy h3 { font-size: clamp(24px, 2.65vw, 35px); line-height: 1.16; margin: 4px 0 6px; }
+.taste-description { margin: 0; max-width: 46ch; color: var(--ink-2); line-height: 1.62; }
+.taste-time { display: flex; gap: 5px; align-items: baseline; margin-top: 9px; color: var(--ink-2); font-size: 12px; }
+.taste-result-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+.taste-result-actions .btn { min-height: 36px; padding: 5px 9px; font-size: 12px; }
+.taste-result-actions .taste-exclude { color: var(--ink-2); }
+.taste-method {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  color: var(--ink-2);
+  font-size: 13px;
+}
+.taste-method p { margin: 0; }
+.taste-method p b { color: var(--ink); }
+.taste-method ol { margin: 7px 0 10px; padding-inline-start: 1.5em; }
+.taste-method li + li { margin-top: 4px; }
+.taste-no-choice,
+.taste-result-empty { padding: 22px 13px; }
+.taste-no-choice h3,
+.taste-result-empty h3 { font-size: 19px; }
+.taste-no-choice p,
+.taste-result-empty p { margin: 4px 0 12px; }
+
+.taste-candidates {
+  margin-top: 13px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: var(--card);
+}
+.taste-candidates summary {
+  padding: 10px 13px;
+  color: var(--primary);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 650;
+}
+.taste-candidates summary span { margin-left: 8px; color: var(--ink-2); font-size: 12px; font-weight: 450; }
+.taste-candidates p { margin: 0; padding: 0 13px 11px; color: var(--ink-2); }
+.taste-candidate-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 186px), 1fr));
+  gap: 7px;
+  padding: 0 11px 11px;
+}
+.taste-candidate {
+  display: grid;
+  grid-template-columns: 55px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  min-height: 55px;
+  padding: 5px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--card-2);
+  color: var(--ink);
+  text-align: left;
+}
+.taste-candidate:hover { border-color: var(--primary); }
+.taste-candidate .taste-photo { border-radius: 4px; }
+.taste-candidate strong,
+.taste-candidate small { display: block; overflow-wrap: anywhere; }
+.taste-candidate strong { font-size: 12px; }
+.taste-candidate small { color: var(--ink-2); font-size: 11px; }
+.taste-sr { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+.taste-arriving .taste-rim { animation: taste-fit-wheel 1350ms cubic-bezier(.16,1,.3,1) both; }
+.taste-arriving .taste-needle { animation: taste-seat-needle 850ms cubic-bezier(.16,1,.3,1) 455ms both; }
+.taste-arriving .taste-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform-origin: right center;
+  background: var(--honey);
+  opacity: .52;
+  pointer-events: none;
+  animation: taste-uncover-dish 1130ms cubic-bezier(.16,1,.3,1) 475ms both;
+}
+.taste-arriving .taste-result-label { animation: taste-stamp-desk 780ms cubic-bezier(.16,1,.3,1) 1330ms both; }
+@keyframes taste-fit-wheel {
+  0% { transform: translateY(22px) rotate(-28deg) scale(.84); opacity: .55; }
+  70% { opacity: 1; }
+  100% { transform: none; }
+}
+@keyframes taste-seat-needle {
+  from { transform: translateY(-15px) rotate(-24deg); opacity: .52; }
+  to { transform: none; opacity: 1; }
+}
+@keyframes taste-uncover-dish {
+  from { transform: scaleX(.84); }
+  to { transform: scaleX(0); }
+}
+@keyframes taste-stamp-desk {
+  from { transform: translate(-8px, -9px) rotate(-11deg) scale(1.06); opacity: .65; }
+  to { transform: none; opacity: 1; }
+}
+
+@media (max-width: 800px) {
+  .taste-board { grid-template-columns: minmax(0, 1fr); }
+  .taste-stage, .taste-result { width: min(100%, 620px); margin-inline: auto; }
+  .taste-jump-result { display: inline-flex; }
+}
+@media (max-width: 720px) {
+  .taste-ticket { min-height: 40px; }
+  .page[data-route="taste"] { padding-block: 10px calc(86px + env(safe-area-inset-bottom)); }
+  .taste-header { margin-bottom: 11px; }
+  .taste-modes button, .taste-filters button { min-height: 39px; padding-inline: 9px; font-size: 12px; }
+  .taste-stage { padding: 12px 12px 10px; }
+  .taste-wheel { inline-size: min(100%, 315px); }
+  .taste-result { scroll-margin-top: 77px; }
+  .taste-deck { min-height: 210px; gap: 8px; padding-block: 15px; }
+  .taste-result-actions .btn { min-height: 40px; }
+}
+@media (max-width: 359px) {
+  .taste-header h2 { font-size: 28px; }
+  .taste-filters button { padding-inline: 7px; }
+}
+@media (forced-colors: active) {
+  .taste-rim, .taste-rotor, .taste-needle { forced-color-adjust: none; }
+  .taste-modes button[aria-pressed="true"], .taste-filters button[aria-pressed="true"] { outline: 2px solid Highlight; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .taste-ticket:hover, .taste-ticket:active { transform: none; }
+  .taste-flip-card:hover:not(:disabled) .taste-card-turn { translate: none; }
+}

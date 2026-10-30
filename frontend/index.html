@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>食光管家 · AI 饮食与健康生活管家</title>
+<link rel="stylesheet" href="styles.css?v=0.2.0-palette1">
+<link rel="stylesheet" href="taste.css?v=0.2.0-palette1">
+<link rel="stylesheet" href="chat-ui.css?v=0.2.0-palette1">
+</head>
+<body>
+<div class="app">
+  <nav class="side" id="side" aria-label="主导航"></nav>
+  <div class="main">
+    <header class="top" id="top"></header>
+    <main class="page" id="page"></main>
+  </div>
+</div>
+<nav class="tabbar" id="tabbar" aria-label="底部导航"></nav>
+<button class="chef-ball" id="chef" onclick="openDrawer()" aria-label="打开 AI 管家"></button>
+<div id="drawer-root"></div>
+<div id="sheet-root"></div>
+<div id="modal-root"></div>
+<div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+<noscript><p style="padding:20px">食光管家需要启用 JavaScript 才能使用。</p></noscript>
+<script src="api.js?v=0.2.0-layout1"></script>
+<script src="data.js?v=0.2.0-repairs1"></script>
+<script src="vendor/markdown-it-15.0.3.min.js"></script>
+<script src="taste.js?v=0.2.0-palette1"></script>
+<script src="chat-ui.js?v=0.2.0-conversation1"></script>
+<script src="weekly.js?v=0.2.0-repairs1"></script>
+<script src="app.js?v=0.2.0-palette1"></script>
+<script src="agent.js?v=0.2.0-conversation1"></script>
+</body>
+</html>

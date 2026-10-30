@@ -1,0 +1,9 @@
+[Unit]
+Description=Generate Shiguang Kitchen 8014 weekly reports on Sunday evening
+
+[Timer]
+OnCalendar=Sun *-*-* 20:00:00 Asia/Shanghai
+Persistent=true
+
+[Install]
+WantedBy=timers.target

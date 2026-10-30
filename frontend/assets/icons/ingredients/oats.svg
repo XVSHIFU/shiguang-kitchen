@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><linearGradient id="oats-g" x1="0" x2=".78" y1="0" y2=".95" gradientUnits="objectBoundingBox">
+      <stop stop-color="#EAC789"/><stop offset="1" stop-color="#BB8B50"/></linearGradient></defs>
+    <path d="M10 53c9-6.5 18.4-13.7 22.6-27.7m-7.1 16.7 15.2-.5m-11-5.1 14.6-8.1m-10.9-1.7 3.6-11.3m-12.2 28-.8-13.5" fill="none" stroke="#8D804D" stroke-width="1.55" stroke-linecap="round"/>
+    <g fill="url(#oats-g)" stroke="#997546" stroke-width="1.15" stroke-linejoin="round">
+      <path d="M33.3 22.4c-2.8-4.6.1-11.6 6.7-15.5 2 6.8-.1 12.8-6.7 15.5Z"/>
+      <path d="M38 31.2c-.7-5.4 3.7-10.6 12.3-12.6.5 6.7-4.5 11.2-12.3 12.6Z"/>
+      <path d="M33.8 40.7c3.1-5.4 9.7-7.7 17.1-4.6-3.9 6.2-11.1 8.1-17.1 4.6Z"/>
+      <path d="M25.4 37.4c-6.4-1.9-9.4-8.4-8.1-14.7 6.8 2 10.4 7.5 8.1 14.7Z"/>
+    </g>
+    <path d="m35.1 18.3 2.8-7.2m2.9 17.1 6-5.1m-8.7 17 8.1-1.9M24 33.9l-4.1-7.2" fill="none" stroke="#FCDE9E" stroke-width="1" stroke-linecap="round"/>
+    <path d="M15 55c-.7-4.4 3.1-8.2 8-8.1-1.7 4.3-3.9 6.9-8 8.1Z" fill="#C3A86B" stroke="#997546" stroke-width="1.1"/></svg>

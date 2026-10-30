@@ -1,0 +1,18 @@
+[Unit]
+Description=Shiguang Kitchen Web
+After=network.target
+
+[Service]
+Type=simple
+User=ai-life
+Group=ai-life
+WorkingDirectory=/opt/ai-life-agent
+EnvironmentFile=/opt/ai-life-agent/.env
+ExecStart=/opt/ai-life-agent/backend/.venv/bin/python -m uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8014
+UMask=0077
+Restart=on-failure
+RestartSec=5s
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

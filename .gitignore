@@ -1,0 +1,27 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+node_modules/
+dist/
+/data/
+/backend/data/
+*.db
+*.db-*
+*.db.bak-*
+*.sqlite
+*.sqlite-*
+*.sqlite3
+*.sqlite3-*
+.env
+.env.*
+!.env.example
+.DS_Store
+*.log
+.pytest_cache/
+frontend/dist/
+admin-login*.txt
+server-admin-ids
+
+# Local résumé draft
+/docs/RESUME.md
